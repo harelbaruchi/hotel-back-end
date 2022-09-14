@@ -1,6 +1,7 @@
 const express = require("express");
 const connection = require("../connection");
 const router = express.Router();
+const moment= require("moment");
 let auth = require("../services/authentication");
 let checkRole = require("../services/checkRole");
 const { AddNewProject, UpdateProject } = require("./commonQueries");
@@ -12,8 +13,8 @@ router.post(
   checkRole.checkRole,
   (req, res, next) => {
     let project = req.body;
-    let query =
-      AddNewProject;
+    let query =AddNewProject;
+    let mySqlDate =moment().format(project.endDate,"YYYY-MM-dd");
     connection.query(
       query,
       [
@@ -21,7 +22,7 @@ router.post(
         project.address,
         project.image,
         project.status,
-        project.endDate,
+        mySqlDate,
       ],
       (err, result) => {
         if (!err) {
@@ -53,7 +54,8 @@ router.get('/get', auth.authenticateToken,(req,res,next)=>{
 router.patch('/update',auth.authenticateToken, (req,res,next) =>{
     let project= req.body;
     const query =UpdateProject;
-    connection.query(query, [project.name,project.address,project.image,project.status,project.endDate,project.id], (err, results) => {
+    let mySqlDate =moment().format(project.endDate,"YYYY-MM-dd");
+    connection.query(query, [project.name,project.address,project.image,project.status,mySqlDate,project.id], (err, results) => {
         if(!err){
             if(results.affectedRows==0){
                 return res.status(404).json({message: "project id does not found"});

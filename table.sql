@@ -17,7 +17,7 @@ create table project(
     address varchar(250),
     image varchar(250),
     status varchar(20),
-    endDate datetime NOT NULL,
+    endDate date NOT NULL,
     primary key(id)
 )
 
