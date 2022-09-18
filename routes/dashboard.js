@@ -5,29 +5,45 @@ let auth = require("../services/authentication");
 let checkRole = require("../services/checkRole");
 
 router.get('/details',auth.authenticateToken,(req,res,next)=>{
-    let projectCount;
-    let commentCount;
-    let query=" select count(id) as projectCount from project";
+    let hotelCount;
+    let roomCount;
+    let reservationCount;
+    let query=" select count(id) as hotelCount from hotel";
     connection.query(query,(err,results)=>{
         if(!err){
-            projectCount= results[0].projectCount;
+            hotelCount= results[0].hotelCount;
         }
         else{
             return res.status(500).json(err)
         }
     })
-     query= "select count(id) as commentCount from comment";
+     query= "select count(id) as roomCount from room";
      connection.query(query,(err,results)=>{
         if(!err){
-            commentCount= results[0].commentCount;
-            let data={
-                project: projectCount,
-                comment: commentCount
-            }
-            return res.status(200).json(data);
+            roomCount= results[0].roomCount;
+            // let data={  //dont return it here 
+            //     project: projectCount,
+            //     comment: commentCount
+            // }
+            // return res.status(200).json(data);
         }
         else{
             return res.status(500).json(err)
+        }
+     })
+     query= "select count(id) as reservationCount from reservation"
+     connection.query(query, (err, results)=>{
+        if(!err){
+            reservationCount= results[0].reservationCount;
+            let data= {
+                reservation: reservationCount,
+                room: roomCount,
+                hotel: hotelCount
+            }
+            return res.status(200).json(data);
+        }else {
+            return res.status(500).json(err);
+
         }
      })
 
