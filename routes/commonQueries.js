@@ -26,10 +26,6 @@ const AddNewReservation =
 module.exports = {
   ExistingEmailQuery,
   AddUserQuery,
-  AddNewProject,
-  UpdateProject,
-  AddNewComment,
-  GetComment,
   AddNewHotel,
   GetHotel,
   UpdateHotel,
