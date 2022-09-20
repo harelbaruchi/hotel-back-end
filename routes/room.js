@@ -31,7 +31,7 @@ router.post("/Add", auth.authenticateToken, (req, res,next)=>{
 router.patch('/update',auth.authenticateToken, (req,res,next)=>{
     let room= req.body;   
     const query= "update room set type=?,hotelId=?,availableCount=? where id=?";
-    connection.query(query,[room.type,room.hotelId, room.id],(err,results)=>{
+    connection.query(query,[room.type,room.hotelId,room.availableCount,room.id],(err,results)=>{
         if(!err){
             if(results.affectedRows==0){
                 return res.status(404).json({message: "room id was not found"})

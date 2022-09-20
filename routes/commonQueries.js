@@ -19,7 +19,8 @@ const GetRoom= "select r.id,r.type,r.availableCount,h.id as hotelId,h.name as ho
 //reservation API 
 
 
- const GetReservation= "select b.id,b.inbound, b.outbound, b.personFName, r.id as roomId, r.type as roomType from reservation as b INNER JOIN room as r where b.roomId=r.id";
+ const GetReservation= 
+ "select b.id,b.inbound, b.outbound, b.personFName, r.id as roomId, r.type as roomType, h.id as hotelId, h.name as hotelName from reservation as b INNER JOIN room as r ON b.roomId=r.id INNER JOIN hotel as h ON r.hotelId=h.id ORDER BY h.name";
 const AddNewReservation =
   "insert into reservation(roomId,inbound,outbound,personFName) values(?,?,?,?)";   
 
